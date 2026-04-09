@@ -295,6 +295,118 @@
     opacity: 0.06;
   }
 
+
+  /* ── VIDEO GALLERY ── */
+  .videos-section {
+    position: relative;
+    z-index: 2;
+    padding: 80px 24px 40px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .videos-section h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 6vw, 52px);
+    letter-spacing: 5px;
+    color: #fff;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+  .videos-section .section-sub {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px;
+    letter-spacing: 5px;
+    color: var(--muted);
+    text-align: center;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+  }
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .video-card {
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(10,22,40,0.7);
+    border: 1px solid rgba(6,201,160,0.12);
+    backdrop-filter: blur(8px);
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+  }
+  .video-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(6,201,160,0.35);
+    box-shadow: 0 8px 32px rgba(6,201,160,0.1);
+  }
+  .video-thumb {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #0a1628;
+    position: relative;
+    overflow: hidden;
+  }
+  .video-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.85;
+  }
+  .video-thumb-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #0a1628, #0a3d5c);
+  }
+  .play-btn {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: rgba(6,201,160,0.9);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s;
+  }
+  .video-card:hover .play-btn { transform: scale(1.1); }
+  .video-info { padding: 14px 16px 16px; }
+  .video-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .video-meta {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+    font-family: 'Barlow Condensed', sans-serif;
+  }
+  .video-empty {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 60px 20px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: #1e3040;
+    text-transform: uppercase;
+  }
+  .section-rule {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--teal), transparent);
+    margin: 0 auto 48px;
+  }
+  @media(max-width:480px) {
+    .video-grid { grid-template-columns: 1fr; }
+  }
+
   /* ── MOBILE ── */
   @media(max-width:480px) {
     .email-form { flex-direction: column; border-radius: 14px; }
@@ -358,6 +470,17 @@
   </div>
 </div>
 
+
+  <!-- ── VIDEO SECTION ── -->
+  <div class="section-rule" id="videos"></div>
+  <section class="videos-section">
+    <h2>LATEST VIDEOS</h2>
+    <p class="section-sub">Built By Alaska · Video Studio</p>
+    <div class="video-grid" id="videoGrid">
+      <div class="video-empty" id="videoEmpty">Loading videos...</div>
+    </div>
+  </section>
+
 <footer>
   <p>© 2026 Built By Alaska &nbsp;·&nbsp; <a href="https://huit.ai">Huit.AI</a> &nbsp;·&nbsp; Anchorage, Alaska</p>
 </footer>
@@ -399,6 +522,62 @@ window.addEventListener('scroll', () => {
   const y = window.scrollY;
   document.querySelector('.aurora-bg').style.transform = `translateY(${y * 0.15}px)`;
 });
+
+
+// ── Load videos from Supabase
+const SUPABASE_URL = 'https://vvkdnzqgtajeouxlliuk.supabase.co';
+const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2a2RuenFndGFqZW91eGxsaXVrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwMDkxODYsImV4cCI6MjA4NjU4NTE4Nn0.Mz8dJGT2hPKb14NWyZkApv4AIAQDMPNvBtyoD78xo4M';
+
+async function loadVideos() {
+  try {
+    const res = await fetch(
+      SUPABASE_URL + '/rest/v1/bba_videos?select=*&is_published=eq.true&order=published_at.desc',
+      { headers: { 'apikey': ANON_KEY, 'Authorization': 'Bearer ' + ANON_KEY } }
+    );
+    const videos = await res.json();
+    const grid = document.getElementById('videoGrid');
+    
+    if (!videos || videos.length === 0) {
+      document.getElementById('videoEmpty').textContent = 'Videos coming soon.';
+      return;
+    }
+    
+    grid.innerHTML = '';
+    videos.forEach(v => {
+      const isYT = v.platform === 'youtube';
+      const thumb = v.thumbnail_url;
+      const date = new Date(v.published_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+      
+      const card = document.createElement('a');
+      card.className = 'video-card';
+      card.href = v.url;
+      card.target = '_blank';
+      card.rel = 'noopener';
+      card.innerHTML = `
+        <div class="video-thumb">
+          ${thumb
+            ? `<img src="${thumb}" alt="${v.title}" loading="lazy" onerror="this.style.display='none'">`
+            : ''
+          }
+          <div class="video-thumb-placeholder" style="${thumb ? 'position:absolute;inset:0;opacity:0;' : ''}">
+            <div class="play-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="video-info">
+          <p class="video-title">${v.title}</p>
+          <p class="video-meta">${v.platform} · ${date}</p>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  } catch(e) {
+    document.getElementById('videoEmpty').textContent = 'Videos coming soon.';
+  }
+}
+loadVideos();
+
 </script>
 
 </body>
