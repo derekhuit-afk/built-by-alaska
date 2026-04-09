@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Built By Alaska</title>
+<meta name="description" content="Built By Alaska — Born from the Last Frontier. Clothing, brand, and more coming soon.">
+<meta property="og:title" content="Built By Alaska">
+<meta property="og:description" content="Born from the Last Frontier.">
+<meta property="og:image" content="/logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700;800&family=Barlow:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:   #0a1628;
+    --teal:   #06c9a0;
+    --green:  #18e8b4;
+    --dim:    #1a2d44;
+    --text:   #e8f4f0;
+    --muted:  #5a7a8a;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.4;
+  }
+
+  /* ── AURORA BACKGROUND ── */
+  .aurora-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 40% at 50% 0%, rgba(6,201,160,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 30% at 20% 60%, rgba(24,232,180,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 25% at 80% 70%, rgba(6,180,140,0.06) 0%, transparent 60%),
+      linear-gradient(180deg, #060e1c 0%, #0a1628 40%, #081520 100%);
+    animation: auroraShift 12s ease-in-out infinite alternate;
+  }
+  @keyframes auroraShift {
+    0%   { filter: hue-rotate(0deg) brightness(1); }
+    50%  { filter: hue-rotate(8deg) brightness(1.04); }
+    100% { filter: hue-rotate(-4deg) brightness(0.97); }
+  }
+
+  /* ── STARS ── */
+  .stars {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+    animation: twinkle var(--d, 3s) ease-in-out infinite alternate;
+    animation-delay: var(--dl, 0s);
+  }
+  @keyframes twinkle {
+    from { opacity: var(--oa, 0.3); transform: scale(1); }
+    to   { opacity: var(--ob, 0.9); transform: scale(1.3); }
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 24px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .logo-wrap {
+    position: relative;
+    margin-bottom: 16px;
+    animation: logoIn 1.2s cubic-bezier(0.16,1,0.3,1) both;
+  }
+  @keyframes logoIn {
+    from { opacity:0; transform: translateY(32px) scale(0.94); }
+    to   { opacity:1; transform: translateY(0) scale(1); }
+  }
+  .logo-wrap img {
+    width: min(420px, 88vw);
+    filter: drop-shadow(0 0 40px rgba(6,201,160,0.25)) drop-shadow(0 0 80px rgba(6,201,160,0.1));
+    transition: filter 0.4s;
+  }
+  .logo-wrap img:hover {
+    filter: drop-shadow(0 0 60px rgba(6,201,160,0.4)) drop-shadow(0 0 120px rgba(6,201,160,0.15));
+  }
+
+  .tagline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(13px, 3vw, 16px);
+    font-weight: 300;
+    letter-spacing: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 48px;
+    animation: fadeUp 1s 0.4s both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(16px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  /* ── DIVIDER ── */
+  .rule {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, transparent, var(--teal), transparent);
+    margin: 0 auto 48px;
+    animation: fadeUp 1s 0.5s both;
+  }
+
+  /* ── STATEMENT ── */
+  .statement {
+    animation: fadeUp 1s 0.6s both;
+    margin-bottom: 64px;
+  }
+  .statement h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 10vw, 88px);
+    letter-spacing: 6px;
+    line-height: 0.95;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+  .statement h1 span {
+    color: var(--teal);
+  }
+  .statement p {
+    font-size: clamp(14px, 2.5vw, 17px);
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 480px;
+    margin: 0 auto;
+    letter-spacing: 0.3px;
+  }
+
+  /* ── EMAIL CAPTURE ── */
+  .notify {
+    animation: fadeUp 1s 0.8s both;
+    margin-bottom: 56px;
+  }
+  .notify-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 5px;
+    color: var(--teal);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .email-form {
+    display: flex;
+    gap: 0;
+    max-width: 420px;
+    margin: 0 auto;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(6,201,160,0.25);
+    background: rgba(10,22,40,0.8);
+    backdrop-filter: blur(12px);
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .email-form:focus-within {
+    border-color: rgba(6,201,160,0.6);
+    box-shadow: 0 0 24px rgba(6,201,160,0.12);
+  }
+  .email-form input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 14px 18px;
+    font-family: 'Barlow', sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    letter-spacing: 0.3px;
+  }
+  .email-form input::placeholder { color: var(--muted); }
+  .email-form button {
+    background: linear-gradient(135deg, var(--teal), #0aaa88);
+    border: none;
+    padding: 14px 22px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: #fff;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+  }
+  .email-form button:hover { opacity: 0.85; }
+  .success-msg {
+    display: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: var(--teal);
+    margin-top: 12px;
+  }
+
+  /* ── COMING SOON PILLS ── */
+  .pills {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp 1s 1s both;
+    margin-bottom: 80px;
+  }
+  .pill {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 100px;
+    border: 1px solid rgba(6,201,160,0.2);
+    color: var(--muted);
+    background: rgba(6,201,160,0.04);
+    transition: all 0.25s;
+  }
+  .pill:hover {
+    border-color: rgba(6,201,160,0.5);
+    color: var(--teal);
+    background: rgba(6,201,160,0.08);
+  }
+  .pill.active {
+    border-color: rgba(6,201,160,0.4);
+    color: var(--teal);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 2;
+    padding: 32px 24px;
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+  footer p {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: #1e3040;
+    text-transform: uppercase;
+  }
+  footer a { color: #264055; text-decoration: none; }
+  footer a:hover { color: var(--teal); }
+
+  /* ── MOUNTAIN SILHOUETTE at page bottom ── */
+  .mountain-horizon {
+    position: fixed;
+    bottom: 0;
+    left: 0; right: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.06;
+  }
+
+  /* ── MOBILE ── */
+  @media(max-width:480px) {
+    .email-form { flex-direction: column; border-radius: 14px; }
+    .email-form button { border-radius: 0 0 13px 13px; padding: 13px; }
+    .pills { gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Aurora background -->
+<div class="aurora-bg"></div>
+
+<!-- Stars -->
+<div class="stars" id="stars"></div>
+
+<!-- Mountain silhouette at horizon -->
+<svg class="mountain-horizon" viewBox="0 0 1440 200" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0,200 L0,140 L80,120 L140,130 L200,100 L260,115 L330,80 L390,95 L450,60 L510,78 L570,40 L620,20 L670,0 L720,15 L770,0 L820,22 L870,42 L930,60 L990,78 L1050,60 L1110,95 L1170,80 L1230,115 L1290,100 L1350,120 L1410,130 L1440,140 L1440,200 Z" fill="#06c9a0"/>
+</svg>
+
+<div class="hero">
+  <div class="container">
+
+    <!-- Logo -->
+    <div class="logo-wrap">
+      <img src="/logo.png" alt="Built By Alaska"/>
+    </div>
+
+    <p class="tagline">Born from the Last Frontier</p>
+
+    <div class="rule"></div>
+
+    <!-- Statement -->
+    <div class="statement">
+      <h1>THE FRONTIER<br><span>BUILDS</span> CHARACTER</h1>
+      <p>Alaska doesn't make things easy. That's the point. Built By Alaska is a brand for those forged by the Last Frontier — clothing, community, and everything built hard.</p>
+    </div>
+
+    <!-- Email capture -->
+    <div class="notify">
+      <p class="notify-label">Clothing Drop — Notify Me</p>
+      <div class="email-form" id="emailForm">
+        <input type="email" id="emailInput" placeholder="your@email.com" autocomplete="email"/>
+        <button onclick="handleSubmit()">Notify Me</button>
+      </div>
+      <p class="success-msg" id="successMsg">✦ &nbsp;You're on the list</p>
+    </div>
+
+    <!-- Coming soon pills -->
+    <div class="pills">
+      <span class="pill active">Clothing</span>
+      <span class="pill">Hoodies</span>
+      <span class="pill">Hats</span>
+      <span class="pill">Jackets</span>
+      <span class="pill">Stickers</span>
+      <span class="pill">Derek Huit</span>
+      <span class="pill">Huit.AI</span>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Built By Alaska &nbsp;·&nbsp; <a href="https://huit.ai">Huit.AI</a> &nbsp;·&nbsp; Anchorage, Alaska</p>
+</footer>
+
+<script>
+// ── Generate stars
+const starsEl = document.getElementById('stars');
+for (let i = 0; i < 120; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  const size = Math.random() * 1.8 + 0.4;
+  s.style.cssText = `
+    width: ${size}px; height: ${size}px;
+    left: ${Math.random()*100}%;
+    top: ${Math.random()*70}%;
+    --oa: ${Math.random()*0.3+0.1};
+    --ob: ${Math.random()*0.5+0.5};
+    --d: ${Math.random()*4+2}s;
+    --dl: ${Math.random()*5}s;
+  `;
+  starsEl.appendChild(s);
+}
+
+// ── Email form
+function handleSubmit() {
+  const email = document.getElementById('emailInput').value.trim();
+  if (!email || !email.includes('@')) return;
+  document.getElementById('emailForm').style.display = 'none';
+  document.getElementById('successMsg').style.display = 'block';
+  // Store locally for now
+  console.log('Email captured:', email);
+}
+document.getElementById('emailInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') handleSubmit();
+});
+
+// ── Parallax aurora on scroll
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  document.querySelector('.aurora-bg').style.transform = `translateY(${y * 0.15}px)`;
+});
+</script>
+
+</body>
+</html>
