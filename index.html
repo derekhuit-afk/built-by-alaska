@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Built By Alaska</title>
-<meta name="description" content="Built By Alaska — Born from the Last Frontier. Clothing, brand, and more coming soon.">
+<meta name="description" content="Built By Alaska — Born from the Last Frontier. Clothing, brand, and more Coming to Alaska.">
 <meta property="og:title" content="Built By Alaska">
 <meta property="og:description" content="Born from the Last Frontier.">
 <meta property="og:image" content="/logo.png">
@@ -235,7 +235,7 @@
     margin-top: 12px;
   }
 
-  /* ── COMING SOON PILLS ── */
+  /* ── Coming to Alaska PILLS ── */
   .pills {
     display: flex;
     gap: 10px;
@@ -458,7 +458,7 @@
       <p class="success-msg" id="successMsg">✦ &nbsp;You're on the list</p>
     </div>
 
-    <!-- Coming soon pills -->
+    <!-- Coming to Alaska pills -->
     <div class="pills">
       <span class="pill active">Clothing</span>
       <span class="pill">Hoodies</span>
@@ -540,7 +540,7 @@ async function loadVideos() {
     const grid = document.getElementById('videoGrid');
     
     if (!videos || videos.length === 0) {
-      document.getElementById('videoEmpty').textContent = 'Videos coming soon.';
+      document.getElementById('videoEmpty').textContent = 'Videos Coming to Alaska.';
       return;
     }
     
@@ -575,7 +575,7 @@ async function loadVideos() {
       grid.appendChild(card);
     });
   } catch(e) {
-    document.getElementById('videoEmpty').textContent = 'Videos coming soon.';
+    document.getElementById('videoEmpty').textContent = 'Videos Coming to Alaska.';
   }
 }
 loadVideos();
