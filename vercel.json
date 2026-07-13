@@ -8,6 +8,10 @@
   ],
   "routes": [
     {
+      "src": "/782661b56d9ca1190d5edea622fab4bf.txt",
+      "dest": "/782661b56d9ca1190d5edea622fab4bf.txt"
+    },
+    {
       "src": "/robots.txt",
       "dest": "/robots.txt"
     },
